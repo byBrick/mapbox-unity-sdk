@@ -61,6 +61,8 @@
 		/// </summary>
 		public event Action<Alignment> OnAlignmentAvailable;
 
+		public float Heading { get; set; }
+
 		/// <summary>
 		/// Add GPS and AR nodes to the context.
 		/// Will attempt to compute an alignment.
@@ -85,7 +87,7 @@
 				if (_currentArVector.magnitude < MinimumDeltaDistance || _currentAbsoluteGpsVector.magnitude < MinimumDeltaDistance)
 				{
 					Unity.Utilities.Console.Instance.Log("Minimum movement not yet met (arDelta: " + _currentArVector.magnitude + ", gpsDelta: " + _currentAbsoluteGpsVector.magnitude + ")", "red");
-					return;
+					//return;
 				}
 
 				ComputeAlignment();
@@ -104,7 +106,8 @@
 
 		void ComputeAlignment()
 		{
-			var rotation = Vector3.SignedAngle(_currentAbsoluteGpsVector, _currentArVector, Vector3.up);
+			var rotation = Heading;
+			//var rotation = Vector3.SignedAngle(_currentAbsoluteGpsVector, _currentArVector, Vector3.up);
 			var headingQuaternion = Quaternion.Euler(0, rotation, 0);
 			var relativeGpsVector = headingQuaternion * _currentAbsoluteGpsVector;
 

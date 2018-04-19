@@ -34,6 +34,9 @@ namespace Mapbox.Unity.Ar
 		[SerializeField]
 		float _minimumDesiredAccuracy = 5f;
 
+		[SerializeField]
+		float _heading;
+
 		SimpleAutomaticSynchronizationContext _synchronizationContext;
 
 		float _lastHeading;
@@ -82,6 +85,12 @@ namespace Mapbox.Unity.Ar
 			}
 		}
 
+		public float Heading
+		{
+			get { return _heading; }
+			set { _heading = value; }
+		}
+
 
 		void Awake()
 		{
@@ -100,6 +109,10 @@ namespace Mapbox.Unity.Ar
 			ARInterface.planeAdded += PlaneAddedHandler;
 		}
 
+		void Update()
+		{
+			_synchronizationContext.Heading = Heading;
+		}
 
 		void OnDestroy()
 		{
